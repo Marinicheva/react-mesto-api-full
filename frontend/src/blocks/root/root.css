@@ -1,0 +1,15 @@
+:root {
+  --basic-black: #000000;
+  --basic-white: #ffffff;
+  --grey-border: #545454;
+  --error-red: #FF0000;
+  --grey: #CCCCCC;
+}
+
+#root {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  margin: 0 auto;
+  min-height: 100%;
+  max-width: 880px;
+}

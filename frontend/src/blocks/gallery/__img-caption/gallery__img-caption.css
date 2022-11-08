@@ -1,0 +1,9 @@
+.gallery__img-caption {
+    margin: 0;
+    color: var(--basic-black);
+    font-weight: 900;
+    max-width: 98%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
