@@ -1,4 +1,5 @@
-const { allowedCors, DEFAULT_ALLOWED_METHODS } = require('../utils/constants');
+// const { allowedCors, DEFAULT_ALLOWED_METHODS } = require('../utils/constants');
+const { DEFAULT_ALLOWED_METHODS } = require('../utils/constants');
 
 const corsRequest = (req, res, next) => {
   const { origin } = req.headers;
@@ -6,10 +7,15 @@ const corsRequest = (req, res, next) => {
 
   const requestHeaders = req.headers['access-control-request-headers'];
 
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Credentials', true);
-  }
+  console.log(origin);
+
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', true);
+
+  // if (allowedCors.includes(origin)) {
+  //   res.header('Access-Control-Allow-Origin', '*');
+  //   res.header('Access-Control-Allow-Credentials', true);
+  // }
 
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
