@@ -60,7 +60,7 @@ const login = (req, res, next) => {
           maxAge: 3600000,
           httpOnly: true,
         })
-        .send({ message: 'Авторизация прошла успешно', email: user.email });
+        .send({ message: 'Авторизация прошла успешно' });
     })
     .catch((err) => {
       next(err);
