@@ -57,7 +57,6 @@ const login = (req, res, next) => {
       );
       res
         .cookie('token', token, {
-          domain: 'http://localhost:3000',
           maxAge: 3600000,
           httpOnly: true,
         })
