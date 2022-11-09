@@ -1,9 +1,9 @@
-import { API_URL, TOKEN } from "./constants";
+// Удалила везде токен, добавила credentials
+import { API_URL } from "./constants";
 
 class Api {
-  constructor(url, token) {
+  constructor(url) {
     this._url = url;
-    this._token = token;
   }
 
   //Обработка ответа сервера
@@ -18,9 +18,7 @@ class Api {
   getUserInfo() {
     return fetch(`${this._url}users/me`, {
       method: "GET",
-      headers: {
-        "authorization": this._token,
-      },
+      credentials: 'include',
     }).then((res) =>
       this._getResponseData(res, "Данные о пользователе не получены"));
   }
@@ -30,9 +28,9 @@ class Api {
     return fetch(`${this._url}users/me`, {
       method: "PATCH",
       headers: {
-        "authorization": this._token,
         "Content-Type": "application/json",
       },
+      credentials: 'include',
       body: JSON.stringify(data)
     })
     .then(res => this._getResponseData(res, "Данные пользователя не изменены"));
@@ -43,9 +41,9 @@ class Api {
     return fetch(`${this._url}users/me/avatar`, {
       method: "PATCH",
       headers: {
-        "authorization": this._token,
         "Content-Type": "application/json",
       },
+      credentials: 'include',
       body: JSON.stringify(avatarData)
     })
     .then(res => this._getResponseData(res, "Аватар не обновлен"));
@@ -55,9 +53,7 @@ class Api {
   getCardList() {
     return fetch(`${this._url}cards`, {
       method: "GET",
-      headers: {
-        "authorization": this._token,
-      },
+      credentials: 'include',
     }).then((res) =>
       this._getResponseData(res, "Карточки с сервера не пришли")
     );
@@ -67,9 +63,7 @@ class Api {
   changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._url}cards/${cardId}/likes`, {
       method: isLiked ? "DELETE" : "PUT",
-      headers: {
-        "authorization": this._token,
-      },
+      credentials: 'include',
     }).then((res) => this._getResponseData(res, "Статус лайка не изменен"));
   }
 
@@ -77,9 +71,7 @@ class Api {
   deleteCard(cardId) {
     return fetch(`${this._url}cards/${cardId}`, {
       method: "DELETE",
-      headers: {
-        "authorization": this._token,
-      }
+      credentials: 'include',
     })
     .then(res => this._getResponseData(res, "Карточка не удалена"));
   }
@@ -89,14 +81,14 @@ addNewCard(newCardData) {
   return fetch(`${this._url}cards`, {
     method: "POST",
     headers: {
-      "authorization": this._token,
       "Content-Type": "application/json",
     },
+    credentials: 'include',
     body: JSON.stringify(newCardData)
   })
   .then(res => this._getResponseData(res, "Карточка не добавлена"));
 }
 }
 
-const api = new Api(API_URL, TOKEN);
+const api = new Api(API_URL);
 export default api;

@@ -53,22 +53,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const checkToken = () => {
-      const token = localStorage.getItem("token");
-  
-      if (!token) return;
-  
-      auth
-        .getContent(token)
-        .then((res) => {
-          setCurrentUser((state) => ({...state, email: res.data.email}) );
+    auth
+      .getContent()
+      .then((res) => {
+        if (res) {
+          setCurrentUser((state) => ({...state, email: res.email}) );
           setLoggedIn(true);
           history.push("/");
-        })
-        .catch((err) => console.log(err));
-    }; 
-
-    checkToken();
+        }
+      })
+      .catch((err) => console.log(err));
   }, [history]);
 
   //Открытие попапов
