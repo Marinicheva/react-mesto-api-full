@@ -12,8 +12,10 @@ const corsRequest = (req, res, next) => {
   }
 
   if (method === 'OPTIONS') {
+    const allowHeaders = `${requestHeaders}, 'Set-Cookie'`;
+
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
+    res.header('Access-Control-Allow-Headers', allowHeaders);
     return res.end();
   }
 
