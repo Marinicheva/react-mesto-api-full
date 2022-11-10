@@ -1,4 +1,4 @@
-const API_URL = 'http://api.marinich.students.nomoredomains.icu/';
+const API_URL = 'https://api.marinich.students.nomoredomains.icu/';
 
 const initialValues = {email: '', password: ''};
 
