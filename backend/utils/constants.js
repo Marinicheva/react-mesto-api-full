@@ -4,7 +4,7 @@ const allowedCors = [
   'https://marinich.students.nomoredomains.icu',
   'http://marinich.students.nomoredomains.icu',
   'http://localhost:3000',
-  'http://localhost:3001', // TODO:Удалить перед пушем
+  'https://localhost:3000',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
