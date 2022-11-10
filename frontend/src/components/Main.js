@@ -14,17 +14,18 @@ function Main({
 
   const currentUser = useContext(CurrentUserContext);
 
-  const cardItems = cards.map((item) => {
-    return (
-      <Card
-        key={item._id}
-        card={item}
-        onCardClick={onCardClick}
-        onCardLike={onCardLike}
-        onCardDelete={onCardDelete}
-      />
-    );
-  });
+  const cardItems = cards
+    .map((item) => {
+      return (
+        <Card
+          key={item._id}
+          card={item}
+          onCardClick={onCardClick}
+          onCardLike={onCardLike}
+          onCardDelete={onCardDelete}
+        />
+      )
+    }).reverse();
 
   return (
     <main className="content">
