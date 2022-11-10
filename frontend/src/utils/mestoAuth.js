@@ -1,15 +1,11 @@
 //Удалила токен, добавила credentials, использую URL из констант
 import { API_URL } from './constants';
 
-const request = ({ url, method = "POST", data }) => {
+const request = ({ url, method = 'POST', data }) => {
   const headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json",
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
   };
-
-  // if (token) {
-  //   headers["Authorization"] = `Bearer ${token}`;
-  // }
 
   const config = {
     method,
@@ -32,21 +28,28 @@ const request = ({ url, method = "POST", data }) => {
 
 export const registration = (data) => {
   return request({
-    url: "signup",
+    url: 'signup',
     data,
   });
 };
 
 export const authorization = (data) => {
   return request({
-    url: "signin",
+    url: 'signin',
     data,
   });
 };
 
 export const getContent = () => {
   return request({
-    url: "users/me",
-    method: "GET",
+    url: 'users/me',
+    method: 'GET',
   });
 };
+
+export const logout = () => {
+  return request({
+    url: 'signout',
+    method: 'GET',
+  });
+}

@@ -44,15 +44,17 @@ function App() {
 
   //Эффекты при монтировании/обновлении компонента
   useEffect(() => {
-    Promise.all([api.getCardList(), api.getUserInfo()])
+    if (loggedIn) {
+      Promise.all([api.getCardList(), api.getUserInfo()])
       .then(([cardsData, userData]) => {
         setCards(cardsData);
         setCurrentUser((state) => ({...state, ...userData}) );
       })
       .catch((err) => console.error(err));
-  }, []);
+    }
+  }, [loggedIn]);
 
-  useEffect(() => {
+  useEffect(() => { // TODO: При первой загрузке этот запрос так же отправляется и в консоли ошибки... Придумать как можно отправить
     auth
       .getContent()
       .then((res) => {
@@ -211,9 +213,12 @@ function App() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setLoggedIn(false);
-    history.push("/sign-in");
+    auth.logout().then((res) => {
+      if(res) {
+        setLoggedIn(false);
+        history.push("/sign-in");
+      }
+    })
   };
 
   return (
