@@ -67,6 +67,12 @@ const login = (req, res, next) => {
     });
 };
 
+const logout = (req, res) => {
+  res
+    .clearCookie('token')
+    .send({ message: 'Вы успешно разлогинились' });
+};
+
 const getUsers = (req, res, next) => User.find({})
   .then((users) => {
     res.send(users);
@@ -145,6 +151,7 @@ const updateAvatar = (req, res, next) => {
 module.exports = {
   createUser,
   login,
+  logout,
   getUsers,
   getUserInfo,
   getUserById,

@@ -44,31 +44,27 @@ function App() {
 
   //Эффекты при монтировании/обновлении компонента
   useEffect(() => {
-    Promise.all([api.getCardList(), api.getUserInfo()])
-      .then(([cardsData, userData]) => {
-        setCards(cardsData);
-        setCurrentUser((state) => ({...state, ...userData}) );
-      })
-      .catch((err) => console.error(err));
-  }, []);
+    if (loggedIn) {
+      Promise.all([api.getCardList(), api.getUserInfo()])
+        .then(([cardsData, userData]) => {
+          setCards(cardsData);
+          setCurrentUser((state) => ({ ...state, ...userData }));
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [loggedIn]);
 
-  useEffect(() => {
-    const checkToken = () => {
-      const token = localStorage.getItem("token");
-  
-      if (!token) return;
-  
-      auth
-        .getContent(token)
-        .then((res) => {
-          setCurrentUser((state) => ({...state, email: res.data.email}) );
+  useEffect(() => { // TODO: При первой загрузке этот запрос так же отправляется и в консоли ошибки... Придумать можно ли поправить
+    auth
+      .getContent()
+      .then((res) => {
+        if (res) {
+          setCurrentUser((state) => ({ ...state, email: res.email }));
           setLoggedIn(true);
           history.push("/");
-        })
-        .catch((err) => console.log(err));
-    }; 
-
-    checkToken();
+        }
+      })
+      .catch((err) => console.log(err));
   }, [history]);
 
   //Открытие попапов
@@ -111,7 +107,7 @@ function App() {
   };
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((item) => item._id === currentUser._id);
+    const isLiked = card.likes.some((item) => item === currentUser._id);
     api
       .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
@@ -139,7 +135,7 @@ function App() {
     api
       .addNewCard(cardData)
       .then((data) => {
-        setCards([data, ...cards]);
+        setCards([...cards, data]);
         closeAllPopups();
       })
       .catch((err) => console.error(err))
@@ -151,7 +147,7 @@ function App() {
     api
       .setUserInfo(data)
       .then((newData) => {
-        setCurrentUser(state => ({...state,...newData}));
+        setCurrentUser(state => ({ ...state, ...newData }));
         closeAllPopups();
       })
       .catch((err) => console.log(err))
@@ -162,7 +158,7 @@ function App() {
     api
       .setUserAvatar(avatarData)
       .then((newData) => {
-        setCurrentUser(state => ({...state,...newData}));
+        setCurrentUser(state => ({ ...state, ...newData }));
         closeAllPopups();
       })
       .catch((err) => console.log(err))
@@ -200,8 +196,7 @@ function App() {
       .authorization(loginData)
       .then((data) => {
         if (data) {
-          localStorage.setItem("token", data.token);
-          setCurrentUser((state) => ({...state, email: loginData.email}));
+          setCurrentUser((state) => ({ ...state, email: loginData.email }));
         }
         setLoggedIn(true);
         history.push("/");
@@ -217,9 +212,12 @@ function App() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setLoggedIn(false);
-    history.push("/sign-in");
+    auth.logout().then((res) => {
+      if (res) {
+        setLoggedIn(false);
+        history.push("/sign-in");
+      }
+    })
   };
 
   return (
