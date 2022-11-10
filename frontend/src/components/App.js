@@ -46,20 +46,20 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       Promise.all([api.getCardList(), api.getUserInfo()])
-      .then(([cardsData, userData]) => {
-        setCards(cardsData);
-        setCurrentUser((state) => ({...state, ...userData}) );
-      })
-      .catch((err) => console.error(err));
+        .then(([cardsData, userData]) => {
+          setCards(cardsData);
+          setCurrentUser((state) => ({ ...state, ...userData }));
+        })
+        .catch((err) => console.error(err));
     }
   }, [loggedIn]);
 
-  useEffect(() => { // TODO: При первой загрузке этот запрос так же отправляется и в консоли ошибки... Придумать как можно отправить
+  useEffect(() => { // TODO: При первой загрузке этот запрос так же отправляется и в консоли ошибки... Придумать можно ли поправить
     auth
       .getContent()
       .then((res) => {
         if (res) {
-          setCurrentUser((state) => ({...state, email: res.email}) );
+          setCurrentUser((state) => ({ ...state, email: res.email }));
           setLoggedIn(true);
           history.push("/");
         }
@@ -147,7 +147,7 @@ function App() {
     api
       .setUserInfo(data)
       .then((newData) => {
-        setCurrentUser(state => ({...state,...newData}));
+        setCurrentUser(state => ({ ...state, ...newData }));
         closeAllPopups();
       })
       .catch((err) => console.log(err))
@@ -158,7 +158,7 @@ function App() {
     api
       .setUserAvatar(avatarData)
       .then((newData) => {
-        setCurrentUser(state => ({...state,...newData}));
+        setCurrentUser(state => ({ ...state, ...newData }));
         closeAllPopups();
       })
       .catch((err) => console.log(err))
@@ -196,8 +196,7 @@ function App() {
       .authorization(loginData)
       .then((data) => {
         if (data) {
-          localStorage.setItem("token", data.token);
-          setCurrentUser((state) => ({...state, email: loginData.email}));
+          setCurrentUser((state) => ({ ...state, email: loginData.email }));
         }
         setLoggedIn(true);
         history.push("/");
@@ -214,7 +213,7 @@ function App() {
 
   const handleLogout = () => {
     auth.logout().then((res) => {
-      if(res) {
+      if (res) {
         setLoggedIn(false);
         history.push("/sign-in");
       }
