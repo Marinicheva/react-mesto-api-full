@@ -236,7 +236,7 @@ function App() {
           {<Login onLogin={handleLogin} />}
         </Route>
 
-        <ProtectedRoute path="/" loggedIn={loggedIn}>
+        <ProtectedRoute exact path="/" loggedIn={loggedIn}>
           <Main
             cards={cards}
             onEditProfile={handleEditProfileClick}
