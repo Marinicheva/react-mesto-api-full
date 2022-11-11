@@ -54,7 +54,7 @@ function App() {
     }
   }, [loggedIn]);
 
-  useEffect(() => { // TODO: При первой загрузке этот запрос так же отправляется и в консоли ошибки... Придумать можно ли поправить
+  useEffect(() => {
     auth
       .getContent()
       .then((res) => {
