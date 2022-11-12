@@ -44,7 +44,7 @@ Backend https://api.marinich.students.nomoredomains.icu
 * Flexbox
 * Grid layout
 * БЭМ (Nested)
-* React (приложение построенно с использованием функциональных компонентов, хуков)
+* React (функциональный компоненты, хуки)
 * React Router
 * Fetch API
 
